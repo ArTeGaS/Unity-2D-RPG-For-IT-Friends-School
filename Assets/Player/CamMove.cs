@@ -11,7 +11,7 @@ public class CamMove : MonoBehaviour
     public static int hitPoints = 100;
 
     private Rigidbody2D rb;
-    private bool isDashing = false;
+    private bool isDashing = false; // Статус
 
     public GameObject player;
     public GameObject mainCam;
@@ -37,7 +37,7 @@ public class CamMove : MonoBehaviour
         if (Input.GetKey(KeyCode.Space) && !isDashing)
         {
             // Викликаємо функцію Dash
-            Dash(move);
+            Dash();
         }
         else
         {
@@ -51,7 +51,7 @@ public class CamMove : MonoBehaviour
         UpdatePlayerSprite();
     }
 
-    void Dash(Vector2 direction)
+    void Dash()
     {
         // Позначаємо, що ми в "dash"
         isDashing = true;
