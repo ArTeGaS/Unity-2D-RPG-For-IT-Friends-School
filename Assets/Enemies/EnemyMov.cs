@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class EnemyMov : MonoBehaviour
 {
-    public Transform player; // посиланн€ на об'Їкт гравц€
+    private GameObject playerObj;
+    private Transform player; // посиланн€ на об'Їкт гравц€
     public float moveSpeed = 5f; // швидк≥сть руху ворога
 
+    private Rigidbody2D rb;
     private bool isMoveing = true;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        playerObj = GameObject.Find("Player");
+        player = playerObj.GetComponent<Transform>();
+    }
 
     void FixedUpdate()
     {
@@ -23,7 +32,12 @@ public class EnemyMov : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
 
             // –ух ворога в напр€мку гравц€
-            transform.Translate(direction * moveSpeed * Time.deltaTime, Space.World);
+            //transform.Translate(direction * moveSpeed * Time.fixedDeltaTime, Space.World);
+            rb.velocity = direction * moveSpeed;
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)

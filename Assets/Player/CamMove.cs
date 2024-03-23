@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CamMove : MonoBehaviour
 {
     public float speed;
     public float dashSpeed; // Швидкість під час "dash"
     public float dashDuration; // Тривалість "dash"
-    public static int hitPoints = 100;
+    public static float hitPoints = 100;
 
     private Rigidbody2D rb;
     private bool isDashing = false; // Статус
@@ -20,6 +22,9 @@ public class CamMove : MonoBehaviour
     public Sprite spriteBelow; // Спрайт, коли курсор нижче гравця
 
     private SpriteRenderer spriteRenderer;
+
+    public Slider HitPointBarSlider;
+    public TextMeshProUGUI HitPointBarText;
 
     void Start()
     {
@@ -49,6 +54,7 @@ public class CamMove : MonoBehaviour
             player.transform.position.x, player.transform.position.y, mainCam.transform.position.z);
 
         UpdatePlayerSprite();
+        UpdateHitPointBar();
     }
 
     void Dash()
@@ -75,7 +81,11 @@ public class CamMove : MonoBehaviour
         // Забираємо позначку про те, що "dash" завершено
         isDashing = false;
     }
-
+    void UpdateHitPointBar()
+    {
+        HitPointBarSlider.value = Mathf.Clamp(hitPoints,0,100);
+        HitPointBarText.text = $"HP: {HitPointBarSlider.value}";
+    }
     void UpdatePlayerSprite()
     {
         Vector3 cursorWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
